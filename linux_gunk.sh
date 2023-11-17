@@ -2,18 +2,20 @@
 # Bluetooth
 ########################################
 
-# Linux bluetooth keys are at /var/lib/bluetooth/controller_mac/device_mac/info
-
 # look up keys in windows registry
 cd /mnt/c/Windows/System32/config
 sudo chntpw -e SYSTEM
 cd ControlSet001\Services\BTHPORT\Parameters\Keys\1002b509f591
 hex 88d039a3e0eb
 # then echo "KEY" | tr -d " "
+# copy result to /var/lib/bluetooth/controller_mac/device_mac/info
 
 # set headphone profile to audio sink???
 pactl list cards short
 pacmd set-card-profile 8 a2dp_sink
+
+# fix stuttering, set bluetooth latency to e.g 15000 microsec
+pactl set-port-latency-offset bluez_card.<MAC_ADDRESS> headset-output 15000
 
 ########################################
 # Docker
